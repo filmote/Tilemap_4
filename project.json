@@ -328,6 +328,12 @@
 		},
 		"\\project.json": {
 			"sdcard": false
+		},
+		"/Tilemap_4.elf": {
+			"sdcard": false
+		},
+		"/Tilemap_4.bin": {
+			"sdcard": false
 		}
 	}
 }

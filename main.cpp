@@ -61,24 +61,34 @@ struct Entity {
     
     int16_t x;
     int16_t y;
-    int16_t xOffset;
-    int16_t yOffset;
 
     const uint8_t width = 12;
     const uint8_t height = 15;
-    
-    int16_t getPositionInMapX() { return Constants::screenCentreX - x - xOffset; }
-    int16_t getPositionInMapY() { return Constants::screenCentreY - y - yOffset; }
 
 };
 
+
+struct Player : Entity {
+    
+    int16_t xOffset;
+    int16_t yOffset;
+
+    int16_t getPositionInWorldX() { return Constants::screenCentreX - x - xOffset; }
+    int16_t getPositionInWorldY() { return Constants::screenCentreY - y - yOffset; }
+
+};
+
+
+struct Enemy : Entity {
+
+};
 
 // ---------------------------------------------------------------------------------------
 
 
 Tilemap tilemap;
-Entity player;
-Entity enemies[Constants::numberOfEnemies];
+Player player;
+Enemy enemies[Constants::numberOfEnemies];
 
 
 
@@ -86,12 +96,12 @@ Entity enemies[Constants::numberOfEnemies];
 //
 //  Do the two entities overlap?
 //
-bool collide(Entity player, Entity enemy) {
+bool collide(Player player, Enemy enemy) {
 
-    return !(enemy.x                >= player.getPositionInMapX() + player.width  ||
-             enemy.x + enemy.width  <= player.getPositionInMapX()                 ||
-             enemy.y                >= player.getPositionInMapY() + player.height ||
-             enemy.y + enemy.height <= player.getPositionInMapY());
+    return !(enemy.x                >= player.getPositionInWorldX() + player.width  ||
+             enemy.x + enemy.width  <= player.getPositionInWorldX()                 ||
+             enemy.y                >= player.getPositionInWorldY() + player.height ||
+             enemy.y + enemy.height <= player.getPositionInWorldY());
 
 }
     
@@ -154,15 +164,15 @@ bool checkMovement(Entity &entity, int16_t x, int16_t y, Direction direction) {
 //
 void handlePlayerMovements() {
 
-    int16_t positionInMapX = player.getPositionInMapX();
-    int16_t positionInMapY = player.getPositionInMapY();
+    int16_t positionInWorldX = player.getPositionInWorldX();
+    int16_t positionInWorldY = player.getPositionInWorldY();
 
     if (PC::buttons.pressed(BTN_LEFT) || PC::buttons.repeat(BTN_LEFT, 1))    { 
 
 
         // Can we move to the left?
         
-        if (checkMovement(player, positionInMapX - 1, positionInMapY, Direction::Left)) {
+        if (checkMovement(player, positionInWorldX - 1, positionInWorldY, Direction::Left)) {
 
     
             // If we are already on the right hand side of the screen, come back to the centre ..
@@ -200,7 +210,7 @@ void handlePlayerMovements() {
 
         // Can we move to the right?
         
-        if (checkMovement(player, positionInMapX + 1, positionInMapY, Direction::Right)) {
+        if (checkMovement(player, positionInWorldX + 1, positionInWorldY, Direction::Right)) {
                 
     
             // If we are already on the left hand side of the screen, come back to the centre ..
@@ -233,7 +243,7 @@ void handlePlayerMovements() {
 
         // Can we move up?
         
-        if (checkMovement(player, positionInMapX, positionInMapY - 1, Direction::Up)) {
+        if (checkMovement(player, positionInWorldX, positionInWorldY - 1, Direction::Up)) {
 
             
             // If we are already in the bottom section of the screen, come back to the centre ..
@@ -265,7 +275,7 @@ void handlePlayerMovements() {
 
         // Can we move down?
         
-        if (checkMovement(player, positionInMapX, positionInMapY + 1, Direction::Down)) {
+        if (checkMovement(player, positionInWorldX, positionInWorldY + 1, Direction::Down)) {
 
     
             // If we are already in the top section of the screen, come back to the centre ..
@@ -306,15 +316,15 @@ void handleEnemyMovements() {
 
     // Where is the player currently ?
     
-    int16_t playerPositionInMapX = player.getPositionInMapX();
-    int16_t playerPositionInMapY = player.getPositionInMapY();
+    int16_t playerPositionInWorldX = player.getPositionInWorldX();
+    int16_t playerPositionInWorldY = player.getPositionInWorldY();
     
     
     // Move each enemy individually ..
     
     for (uint8_t i = 0; i < Constants::numberOfEnemies; i++) {
 
-        if (playerPositionInMapX < enemies[i].x) {
+        if (playerPositionInWorldX < enemies[i].x) {
 
             if (checkMovement(enemies[i], enemies[i].x - 1, enemies[i].y, Direction::Left)) {
                 enemies[i].x--;
@@ -322,7 +332,7 @@ void handleEnemyMovements() {
             
         }
         
-        if (playerPositionInMapX > enemies[i].x) {
+        if (playerPositionInWorldX > enemies[i].x) {
 
             if (checkMovement(enemies[i], enemies[i].x + 1, enemies[i].y, Direction::Right)) {
                 enemies[i].x++;
@@ -330,7 +340,7 @@ void handleEnemyMovements() {
             
         }
 
-        if (playerPositionInMapY < enemies[i].y) {
+        if (playerPositionInWorldY < enemies[i].y) {
 
             if (checkMovement(enemies[i], enemies[i].x, enemies[i].y - 1, Direction::Up)) {
                 enemies[i].y--;
@@ -338,7 +348,7 @@ void handleEnemyMovements() {
             
         }
         
-        if (playerPositionInMapY > enemies[i].y) {
+        if (playerPositionInWorldY > enemies[i].y) {
 
             if (checkMovement(enemies[i], enemies[i].x, enemies[i].y + 1, Direction::Down)) {
                 enemies[i].y++;
