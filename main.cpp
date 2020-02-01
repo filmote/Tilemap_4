@@ -368,11 +368,10 @@ void handleEnemyMovements() {
 int main(){
 
     PC::begin();
-    PD::persistence = true;
-    PD::invisiblecolor = 0;
     PD::loadRGBPalette(palettePico);   
+    PD::persistence = true;
+    PD::invisiblecolor = 12;
     PD::setFont(fontC64);
-
 
 
     // Initialise the map ..
@@ -445,7 +444,7 @@ int main(){
                 
                 PD::setColor(2);
                 PD::fillRect(78, 78, 80, 10);
-                PD::setColor(5);
+                PD::setColor(0, 2);
                 PD::setCursor(80, 80);
                 PD::print("Game Over");
 
