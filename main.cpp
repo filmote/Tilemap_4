@@ -352,10 +352,10 @@ int main(){
     // Initialise the map ..
     
     tilemap.set(16, 16, Data::mapPixels);
-    tilemap.tiles[TileType::Green] = Images::green16;
-    tilemap.tiles[TileType::Tree] = Images::tree16;
-    tilemap.tiles[TileType::Grass] = Images::grass16;
-    tilemap.tiles[TileType::Water] = Images::water16;
+    tilemap.setTile(TileType::Green, Images::Green);
+    tilemap.setTile(TileType::Tree, Images::Tree);
+    tilemap.setTile(TileType::Grass, Images::Grass);
+    tilemap.setTile(TileType::Water, Images::Water);
 
 
     // Position the player into a vacant spot on the map ..

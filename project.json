@@ -386,6 +386,54 @@
 		},
 		"/images/Enemy.h": {
 			"sdcard": false
+		},
+		"\\images": {
+			"sdcard": false
+		},
+		"\\Tilemap_4.elf": {
+			"sdcard": false
+		},
+		"\\Tilemap_4.bin": {
+			"sdcard": false
+		},
+		"\\images\\Grass.h": {
+			"sdcard": false
+		},
+		"\\images\\Grass.png": {
+			"sdcard": false
+		},
+		"\\images\\Enemy.png": {
+			"sdcard": false
+		},
+		"\\images\\Enemy.h": {
+			"sdcard": false
+		},
+		"\\images\\Green.h": {
+			"sdcard": false
+		},
+		"\\images\\Images.h": {
+			"sdcard": false
+		},
+		"\\images\\Green.png": {
+			"sdcard": false
+		},
+		"\\images\\Player.h": {
+			"sdcard": false
+		},
+		"\\images\\Player.png": {
+			"sdcard": false
+		},
+		"\\images\\Tree.h": {
+			"sdcard": false
+		},
+		"\\images\\Tree.png": {
+			"sdcard": false
+		},
+		"\\images\\Water.png": {
+			"sdcard": false
+		},
+		"\\images\\Water.h": {
+			"sdcard": false
 		}
 	}
 }
